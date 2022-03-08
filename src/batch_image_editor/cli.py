@@ -1,4 +1,7 @@
 import argparse
+from pathlib import Path
+
+from .processing import ProcessingOptions, ResizeOptions, process_images
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -19,16 +22,68 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Show which files would be processed without writing anything.",
     )
+    parser.add_argument(
+        "--width",
+        type=int,
+        help="Resize images to this width while keeping aspect ratio.",
+    )
+    parser.add_argument(
+        "--height",
+        type=int,
+        help="Resize images to this height while keeping aspect ratio.",
+    )
+    parser.add_argument(
+        "--no-keep-aspect",
+        action="store_true",
+        help="Resize without keeping the original aspect ratio.",
+    )
+    parser.add_argument(
+        "--grayscale",
+        action="store_true",
+        help="Convert images to grayscale.",
+    )
+    parser.add_argument(
+        "--format",
+        choices=["JPEG", "PNG", "GIF", "BMP", "TIFF"],
+        help="Convert images to a different format.",
+    )
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
-    parser.parse_args(argv)
-    # The actual editing logic will be implemented later.
+    args = parser.parse_args(argv)
+
+    input_root = Path(args.input).expanduser().resolve()
+    output_root = Path(args.output).expanduser().resolve()
+
+    resize_opts: ResizeOptions | None = None
+    if args.width or args.height:
+        resize_opts = ResizeOptions(
+            width=args.width,
+            height=args.height,
+            keep_aspect=not args.no_keep_aspect,
+        )
+
+    options = ProcessingOptions(
+        resize=resize_opts,
+        grayscale=args.grayscale,
+        format=args.format,
+    )
+
+    processed = process_images(
+        input_root=input_root,
+        output_root=output_root,
+        options=options,
+        dry_run=args.dry_run,
+    )
+
+    if args.dry_run:
+        for target in processed:
+            print(target)
+
     return 0
 
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
