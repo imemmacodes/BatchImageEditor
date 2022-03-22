@@ -1,6 +1,7 @@
 import argparse
 from pathlib import Path
 
+from .fsutils import ensure_directory, validate_input_folder
 from .processing import ProcessingOptions, ResizeOptions, process_images
 
 
@@ -54,8 +55,12 @@ def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
 
-    input_root = Path(args.input).expanduser().resolve()
-    output_root = Path(args.output).expanduser().resolve()
+    input_root = validate_input_folder(
+        Path(args.input).expanduser().resolve(),
+    )
+    output_root = ensure_directory(
+        Path(args.output).expanduser().resolve(),
+    )
 
     resize_opts: ResizeOptions | None = None
     if args.width or args.height:
