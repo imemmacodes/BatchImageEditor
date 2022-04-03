@@ -11,6 +11,16 @@ Planned features include:
 - Apply simple filters such as grayscale
 - Run dry-runs to preview what will be changed
 
+Example usage
+-------------
+
+Resize a folder of photos to a maximum width of 1280 pixels:
+
+    python -m batch_image_editor ./photos ./resized --width 1280
+
+Show which files would be processed without writing anything:
+
+    python -m batch_image_editor ./photos ./resized --width 1280 --dry-run
+
 This project is intentionally simple and focused on learning and
 experimentation rather than production use.
-
