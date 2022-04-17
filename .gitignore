@@ -1,5 +1,5 @@
-AGENTS.md
 __pycache__/
-.venv/
+AGENTS.md
 dist/
+.venv/
 *.pyc
