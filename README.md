@@ -22,5 +22,14 @@ Show which files would be processed without writing anything:
 
     python -m batch_image_editor ./photos ./resized --width 1280 --dry-run
 
+Development notes
+-----------------
+
+This project is intentionally small and opinionated. If something feels
+too clever for what it does, it probably should be simplified instead.
+
+The tests are kept lightweight and focus on exercising small pieces of
+logic rather than end-to-end behaviour.
+
 This project is intentionally simple and focused on learning and
 experimentation rather than production use.
