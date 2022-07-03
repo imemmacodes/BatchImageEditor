@@ -31,5 +31,12 @@ too clever for what it does, it probably should be simplified instead.
 The tests are kept lightweight and focus on exercising small pieces of
 logic rather than end-to-end behaviour.
 
+Future ideas
+------------
+
+- Optional YAML configuration file for commonly used presets
+- A small progress indicator for long runs
+- Maybe a way to skip already processed files by checksum
+
 This project is intentionally simple and focused on learning and
 experimentation rather than production use.
